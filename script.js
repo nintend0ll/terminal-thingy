@@ -1,20 +1,19 @@
+
 const input = document.querySelector("input");
 const output = document.querySelector(".output");
 
-// pseudo filesystem
-const fs = {
+// files
+const files = {
   "about.txt": "about",
   "projects.txt": "projects",
   "contact.txt": "contact"
 };
 
-let currentDir = "~";
-
 input.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     const command = input.value.trim();
 
-    printRawLine(`agustina@fedora:${currentDir}$ ${command}`);
+    printRawLine(`agustina@fedora:~$ ${command}`);
     handleCommand(command.toLowerCase());
 
     input.value = "";
@@ -27,11 +26,10 @@ function printRawLine(text) {
   output.appendChild(p);
 }
 
-// imprime texto
+// texto con >
 function printLine(text) {
   const p = document.createElement("p");
 
-  // si está vacío → línea vacía sin prompt
   if (text.trim() === "") {
     p.innerHTML = "&nbsp;";
     output.appendChild(p);
@@ -47,13 +45,10 @@ function printLine(text) {
 
   p.appendChild(prompt);
   p.appendChild(content);
-
   output.appendChild(p);
 }
 
-
-
-// imprime HTML
+// HTML templates
 function printHTML(id) {
   const template = document.getElementById(id);
 
@@ -66,50 +61,47 @@ function printHTML(id) {
 
 // MAIN
 function handleCommand(cmd) {
+
   const parts = cmd.split(" ");
   const base = parts[0];
   const arg = parts[1];
 
+  // si no hay texzto
+  if (!base) return;
+  // HELP
   if (base === "help") {
     printLine("commands:");
-    printLine("ls, cat, cd, whoami, pwd, clear");
+    printLine("ls, cat, whoami, pwd, clear");
   }
 
-  // LIST
+  // LS
   else if (base === "ls") {
-    printLine("about.txt   projects/   contact.txt");
+    const list = Object.keys(files).join("   ");
+    printLine(list);
   }
 
-  // CAT FILE
+  // CAT
+  
   else if (base === "cat") {
-    if (fs[arg]) {
-      printLine("");
-      printHTML(fs[arg]);
+    if (!arg) {
+      printLine("cat: missing operand");
+    }
+    else if (files[arg]) {
+      printHTML(files[arg]);
     } else {
-      printLine("cat: file not found");
+      printLine(`cat: ${arg}: No such file or directory`);
     }
   }
 
-  // CD (fake navigation)
-  else if (base === "cd") {
-    if (arg === "~") {
-      currentDir = "~";
-    } else if (fs[`${arg}.txt`]) {
-      currentDir = arg;
-      printHTML(fs[`${arg}.txt`]);
-    } else {
-      printLine("cd: no such file or directory");
-    }
-  }
 
   // WHOAMI
   else if (base === "whoami") {
     printLine("agustina :3");
   }
 
-  // PWD
+  // PWD (fake)
   else if (base === "pwd") {
-    printLine(`/home/agustina/${currentDir === "~" ? "" : currentDir}`);
+    printLine("/home/agustina");
   }
 
   // CLEAR
@@ -119,13 +111,13 @@ function handleCommand(cmd) {
   }
 
   else if (cmd !== "") {
-    printLine("command not found");
+    printLine(`${base}: command not found`);
   }
 
   forceScroll();
 }
 
-// scroll pro
+// scroll
 function forceScroll() {
   setTimeout(() => {
     output.scrollTo({
@@ -135,7 +127,7 @@ function forceScroll() {
   }, 10);
 }
 
-// on load
+// init
 window.addEventListener("load", () => {
   printHTML("intro");
   forceScroll();
