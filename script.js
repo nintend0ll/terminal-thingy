@@ -1,25 +1,57 @@
 const input = document.querySelector("input");
 const output = document.querySelector(".output");
 
+// pseudo filesystem
+const fs = {
+  "about.txt": "about",
+  "projects.txt": "projects",
+  "contact.txt": "contact"
+};
+
+let currentDir = "~";
+
 input.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        const command = input.value.trim();
+  if (e.key === "Enter") {
+    const command = input.value.trim();
 
-        printLine(`> ${command}`);
-        handleCommand(command.toLowerCase());
+    printRawLine(`agustina@fedora:${currentDir}$ ${command}`);
+    handleCommand(command.toLowerCase());
 
-        input.value = "";
-    }
+    input.value = "";
+  }
 });
+
+function printRawLine(text) {
+  const p = document.createElement("p");
+  p.textContent = text;
+  output.appendChild(p);
+}
 
 // imprime texto
 function printLine(text) {
   const p = document.createElement("p");
-  p.textContent = text;
-  output.appendChild(p);
 
-  smartScroll(); // usamos el nuevo sistema
+  // si está vacío → línea vacía sin prompt
+  if (text.trim() === "") {
+    p.innerHTML = "&nbsp;";
+    output.appendChild(p);
+    return;
+  }
+
+  const prompt = document.createElement("span");
+  prompt.textContent = "> ";
+  prompt.classList.add("prompt");
+
+  const content = document.createElement("span");
+  content.textContent = text;
+
+  p.appendChild(prompt);
+  p.appendChild(content);
+
+  output.appendChild(p);
 }
+
+
 
 // imprime HTML
 function printHTML(id) {
@@ -30,78 +62,80 @@ function printHTML(id) {
     clone.style.display = "block";
     output.appendChild(clone);
   }
-
-  smartScroll();
 }
 
-// lógica de comandos
+// MAIN
 function handleCommand(cmd) {
+  const parts = cmd.split(" ");
+  const base = parts[0];
+  const arg = parts[1];
 
-  if (cmd === "help") {
-    printLine("");
-    printLine("available commands:");
-    printLine("about");
-    printLine("projects");
-    printLine("contact");
-    printLine("clear");
-
-    forceScroll(); //  importante para comandos largos
+  if (base === "help") {
+    printLine("commands:");
+    printLine("ls, cat, cd, whoami, pwd, clear");
   }
 
-  else if (cmd === "about") {
-    printLine("");
-    printHTML("about");
-    forceScroll();
+  // LIST
+  else if (base === "ls") {
+    printLine("about.txt   projects/   contact.txt");
   }
 
-  else if (cmd === "projects") {
-    printLine("");
-    printHTML("projects");
-    forceScroll();
+  // CAT FILE
+  else if (base === "cat") {
+    if (fs[arg]) {
+      printLine("");
+      printHTML(fs[arg]);
+    } else {
+      printLine("cat: file not found");
+    }
   }
 
-  else if (cmd === "contact") {
-    printLine("");
-    printHTML("contact");
-    forceScroll();
+  // CD (fake navigation)
+  else if (base === "cd") {
+    if (arg === "~") {
+      currentDir = "~";
+    } else if (fs[`${arg}.txt`]) {
+      currentDir = arg;
+      printHTML(fs[`${arg}.txt`]);
+    } else {
+      printLine("cd: no such file or directory");
+    }
   }
 
-  else if (cmd === "clear") {
+  // WHOAMI
+  else if (base === "whoami") {
+    printLine("agustina :3");
+  }
+
+  // PWD
+  else if (base === "pwd") {
+    printLine(`/home/agustina/${currentDir === "~" ? "" : currentDir}`);
+  }
+
+  // CLEAR
+  else if (base === "clear") {
     output.innerHTML = "";
     printHTML("intro");
-    forceScroll();
   }
 
   else if (cmd !== "") {
-    printLine(`command not found: ${cmd}`);
-    forceScroll();
+    printLine("command not found");
   }
+
+  forceScroll();
 }
 
-//  scroll inteligente (respeta si subís)
-function smartScroll() {
-  const isNearBottom =
-    output.scrollHeight - output.scrollTop <= output.clientHeight + 50;
-
-  if (isNearBottom) {
-    output.scrollTo({
-      top: output.scrollHeight,
-      behavior: "smooth"
-    });
-  }
-}
-
-//  scroll forzado (cuando escribís)
+// scroll pro
 function forceScroll() {
   setTimeout(() => {
     output.scrollTo({
       top: output.scrollHeight,
       behavior: "smooth"
     });
-  }, 50);
+  }, 10);
 }
 
-// intro al cargar
+// on load
 window.addEventListener("load", () => {
   printHTML("intro");
   forceScroll();
