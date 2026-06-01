@@ -237,3 +237,69 @@ a:hover {
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
 }
+
+/* =========================
+   RESPONSIVE 
+   ========================= */
+@media (max-width: 768px) {
+
+  body {
+    background: var(--bg); 
+  }
+
+
+  .terminal {
+    width: 95%;
+    height: 85vh;
+
+    padding: 15px;
+
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+
+    margin: 20px auto;
+
+    border-radius: 8px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+
+  .output p,
+  input,
+  .prompt {
+    font-size: 14px;
+  }
+
+ 
+  .system-info {
+    grid-template-columns: 80px auto;
+    font-size: 14px;
+  }
+
+
+  .ascii {
+    font-size: 10px;
+    line-height: 1;
+    overflow-x: auto;
+  }
+
+
+  .input-line {
+    flex-shrink: 0;
+  }
+
+  
+  .output::-webkit-scrollbar {
+    width: 4px;
+  }
+}
