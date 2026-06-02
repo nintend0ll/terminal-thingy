@@ -37,9 +37,9 @@ body {
 
 /* container */
 .terminal {
-    width: 900px;
+    width: 960px;
     max-width: 95%;
-    height: 500px;
+    height: 800px;
     min-height: auto;
 
     display: flex;

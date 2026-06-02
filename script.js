@@ -55,9 +55,30 @@ function printHTML(id) {
   if (template) {
     const clone = template.cloneNode(true);
     clone.style.display = "block";
+
+    const paragraphs = clone.querySelectorAll("p");
+
+    paragraphs.forEach(p => {
+      if (p.querySelector(".prompt")) return;
+      const originalHTML = p.innerHTML; 
+
+      p.innerHTML = "";
+
+      const prompt = document.createElement("span");
+      prompt.textContent = "> ";
+      prompt.classList.add("prompt");
+
+      const content = document.createElement("span");
+      content.innerHTML = originalHTML; 
+
+      p.appendChild(prompt);
+      p.appendChild(content);
+    });
+
     output.appendChild(clone);
   }
 }
+
 
 // MAIN
 function handleCommand(cmd) {
