@@ -131,6 +131,15 @@ function handleCommand(cmd) {
     printHTML("intro");
   }
 
+  else if (cmd === "rm -rf /") {
+    printLine("rm: cannot remove root");
+  }
+
+
+  else if (cmd === "222") {
+    printLine("my fav angel number");
+  }
+
   else if (cmd !== "") {
     printLine(`${base}: command not found`);
   }
