@@ -218,15 +218,6 @@ body {
     font-size: 20px;
 }
 
-.user {
-  color: var(--accent2); /* agustina@fedora */
-}
-
-.path {
-  color: var(--accent); /* :~$ */
-  margin-right: 8px;
-}
-
 input {
     background: transparent;
     border: none;

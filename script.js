@@ -13,7 +13,7 @@ input.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     const command = input.value.trim();
 
-    printRawLine(`agustina@fedora:~$ ${command}`);
+    printRawLine(`makiroll@agustina:~$ ${command}`);
     handleCommand(command.toLowerCase());
 
     input.value = "";
@@ -42,22 +42,22 @@ function printLine(text) {
 
 
   //user@host
-  const user = document.createElement("span");
-  user.textContent = "agustina@fedora";
-  user.classList.add("user");
+  //const user = document.createElement("span");
+  //user.textContent = "makiroll@agustina";
+  //user.classList.add("user");
 
   //:~$
-  const path = document.createElement("span");
-  path.textContent = ":~$ ";
-  path.classList.add("path");
+  //const path = document.createElement("span");
+  //path.textContent = ":~$ ";
+  //path.classList.add("path");
 
 
   const content = document.createElement("span");
   content.textContent = text;
 
   p.appendChild(prompt);
-  p.appendChild(user);
-  p.appendChild(path);
+  //p.appendChild(user);
+  //p.appendChild(path);
   p.appendChild(content);
   output.appendChild(p);
 }
