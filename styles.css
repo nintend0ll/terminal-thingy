@@ -40,11 +40,10 @@
 body {
     margin: 0;
     height: 100vh;
-
-    background: radial-gradient(circle at top, #151520, #0d0d12);
-
     color: var(--text);
     font-family: "Departure Mono", monospace;
+
+  background: var(--bg);
 
   
     background-image: url("./assets/wallp.png");
@@ -187,7 +186,7 @@ body {
 }
 .ascii {
   font-family: "Departure Mono", monospace;
-  color: var(--accent2);
+  color: var(--subtext);
   margin: 0 0 15px 0;
  
 }
@@ -219,6 +218,15 @@ body {
     font-size: 20px;
 }
 
+.user {
+  color: var(--accent2); /* agustina@fedora */
+}
+
+.path {
+  color: var(--accent); /* :~$ */
+  margin-right: 8px;
+}
+
 input {
     background: transparent;
     border: none;
@@ -227,16 +235,9 @@ input {
     font-size: 20px;
     outline: none;
     width: 100%;
+
 }
 
-input::after {
-    content: "_";
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    50% { opacity: 0; }
-}
 
 /* accents */
 .accent {

@@ -40,10 +40,24 @@ function printLine(text) {
   prompt.textContent = "> ";
   prompt.classList.add("prompt");
 
+
+  //user@host
+  const user = document.createElement("span");
+  user.textContent = "agustina@fedora";
+  user.classList.add("user");
+
+  //:~$
+  const path = document.createElement("span");
+  path.textContent = ":~$ ";
+  path.classList.add("path");
+
+
   const content = document.createElement("span");
   content.textContent = text;
 
   p.appendChild(prompt);
+  p.appendChild(user);
+  p.appendChild(path);
   p.appendChild(content);
   output.appendChild(p);
 }
